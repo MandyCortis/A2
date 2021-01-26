@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 
 public class positionRecord
 
@@ -62,7 +62,7 @@ public class positionRecord
 
         
             //the distance between any food spawned
-            return Vector3.Distance(this.position,o.position) < 2f;
+            return Vector3.Distance(this.position,o.position) < 4f;
        
        
     }
@@ -82,26 +82,20 @@ public class positionRecord
 
 public class snakeGenerator : MonoBehaviour
 {
-
     public int snakelength;
+    int positionorder = 0;
+    int pastpositionslimit = 100;
+
+    bool firstrun = true;
 
     foodGenerator fgen;
     snakeheadController snakeController;
 
-
-    int pastpositionslimit = 100;
+    Color snakeColor;
 
     GameObject playerBox,breadcrumbBox,pathParent,timerUI;
 
     List<positionRecord> pastPositions;
-
-    int positionorder = 0;
-
-    bool firstrun = true;
-
-
-    Color snakeColor;
-
 
 
     IEnumerator waitToGenerateFood()
@@ -113,9 +107,7 @@ public class snakeGenerator : MonoBehaviour
                 StartCoroutine(fgen.generateFood());
                 break;
             }
-
             yield return null;
-
         }
         yield return null;
     }
@@ -124,10 +116,9 @@ public class snakeGenerator : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
         snakeColor = Color.green;
 
-        playerBox = Instantiate(Resources.Load<GameObject>("Prefabs/Square"), new Vector3(0f, 0f), Quaternion.identity);
+        playerBox = Instantiate(Resources.Load<GameObject>("Prefabs/Snake"), new Vector3(-8, 9, 0), Quaternion.identity);
 
         timerUI = Instantiate(Resources.Load<GameObject>("Prefabs/Timer"), new Vector3(0f, 0f), Quaternion.identity);
 
@@ -135,8 +126,6 @@ public class snakeGenerator : MonoBehaviour
         timerUI.GetComponentInChildren<timerManager>().timerStarted = true;
 
        
-
-
         pathParent = new GameObject();
 
         pathParent.transform.position = new Vector3(0f, 0f);
@@ -144,14 +133,14 @@ public class snakeGenerator : MonoBehaviour
         pathParent.name = "Path Parent";
 
         
-        breadcrumbBox = Resources.Load <GameObject>("Prefabs/Square");
+        breadcrumbBox = Resources.Load <GameObject>("Prefabs/Food");
 
         playerBox.GetComponent<SpriteRenderer>().color = Color.black;
 
         //move the box with the arrow keys
         playerBox.AddComponent<snakeheadController>();
 
-        playerBox.name = "Black player box";
+        playerBox.name = "Snake Head";
 
         pastPositions = new List<positionRecord>();
 
@@ -160,6 +149,8 @@ public class snakeGenerator : MonoBehaviour
         StartCoroutine(waitToGenerateFood());
 
         drawTail(snakelength);
+
+
        
     }
 
@@ -173,14 +164,12 @@ public class snakeGenerator : MonoBehaviour
             yield return null;
         }
 
-
         //2. reverse the list of moves, to get the moves I want to go back to
         List<positionRecord> reversedPositions = new List<positionRecord>();
 
         reversedPositions = pastPositions;
 
         reversedPositions.Reverse();
-
 
         //3. iterate through the moves, waiting for one second every move
         foreach(positionRecord p in reversedPositions)
@@ -189,34 +178,8 @@ public class snakeGenerator : MonoBehaviour
 
             yield return new WaitForSeconds(1f);
         }
-
-
         yield return null;
     }
-
-
-    //TASK 2: We want to show or hide the trail we have just created.  What would be a good way of doing this?
-
-
-
-
-    //TASK 3: We want to stop our box from going out of the camera.  
-    //What would be an optimized way of making sure this doesn't happen
-    //Mathf.Clamp is a very interesting function
-
-    //TASK 4: Only generate the red breadcrumbs if you REALLY need them
-
-
-    //TASK 5: Create a coroutine to move the black box all the way around the screen and back to the center of the screen once a full
-    //circuit has been completed.  This should be trigged by pressing the space bar. 
-
-    //TASK 5b: Make sure that all the boxes generated are children of an object called PathParent
-
-    //TASK 6: Implement a button once you click it the snake appears and the timer starts.
-
-    //TASK 7: Implement a coroutine that generates up to 6 blocks every random seconds between 6 and 10 at positions which are
-    //rounded off to the nearest decimal.  Make sure that food cannot spawn on top of a past spawned food. 
-
 
 
     IEnumerator Task5()
@@ -231,8 +194,6 @@ public class snakeGenerator : MonoBehaviour
             savePosition();
             yield return new WaitForSeconds(0.1f);
         }
-
-        
         yield return null;
     }
     
@@ -242,10 +203,8 @@ public class snakeGenerator : MonoBehaviour
     bool boxExists(Vector3 positionToCheck)
     {
         //foreach position in the list
-
         foreach (positionRecord p in pastPositions)
         {
-            
             if (p.Position == positionToCheck)
             {
                 Debug.Log(p.Position + "Actually was a past position");
@@ -257,7 +216,6 @@ public class snakeGenerator : MonoBehaviour
                 }
             }
         }
-
         return false;
     }
 
@@ -307,7 +265,6 @@ public class snakeGenerator : MonoBehaviour
 
         for (int snakeblocks = tailStartIndex;snakeblocks>tailEndIndex;snakeblocks--)
         {
-        
             pastPositions[snakeblocks].BreadcrumbBox.GetComponent<SpriteRenderer>().color = color;
         }
     }
@@ -318,31 +275,22 @@ public class snakeGenerator : MonoBehaviour
 
         if (pastPositions.Count>length)
         {
-            //nope
-            //I do have enough positions in the past positions list
-            //the first block behind the player
             int tailStartIndex = pastPositions.Count - 1;
             int tailEndIndex = tailStartIndex - length;
           
-
             //if length = 4, this should give me the last 4 blocks
             for (int snakeblocks = tailStartIndex;snakeblocks>tailEndIndex;snakeblocks--)
             {
                 //prints the past position and its order in the list
-                //Debug.Log(pastPositions[snakeblocks].Position + " " + pastPositions[snakeblocks].PositionOrder);
-
+                //Debug.Log("ppppp" + pastPositions[snakeblocks].Position + " " + pastPositions[snakeblocks].PositionOrder);
                 Debug.Log(snakeblocks);
-
                 pastPositions[snakeblocks].BreadcrumbBox = Instantiate(breadcrumbBox, pastPositions[snakeblocks].Position, Quaternion.identity);
                 pastPositions[snakeblocks].BreadcrumbBox.GetComponent<SpriteRenderer>().color = snakeColor;
-
             }
-
         } 
 
         if (firstrun)
         {
-            
             //I don't have enough positions in the past positions list
             for(int count =length;count>0;count--)
             {
@@ -353,16 +301,11 @@ public class snakeGenerator : MonoBehaviour
                 //fakeBoxPos.BreadcrumbBox = Instantiate(breadcrumbBox, fakeBoxPos.Position, Quaternion.identity);
                 //fakeBoxPos.BreadcrumbBox.GetComponent<SpriteRenderer>().color = Color.yellow;
                 pastPositions.Add(fakeBoxPos);
-
-                 
-
-
             }
             firstrun = false;
             drawTail(length);
             //Debug.Log("Not long enough yet");
         }
-
     }
 
 
@@ -377,16 +320,14 @@ public class snakeGenerator : MonoBehaviour
         {
             if ((headPosition == pastPositions[snakeblocks].Position) && (pastPositions[snakeblocks].BreadcrumbBox != null))
             {
-              //  Debug.Log("Hit Tail");
+                SceneManager.LoadScene("GameOver");
                 return true;
             }
         }
 
-
        return false;
 
     }
-
 
 
     void clearTail()
@@ -400,23 +341,20 @@ public class snakeGenerator : MonoBehaviour
     }
 
 
-  
 
 
     void Update()
     {
+        
         if (Input.anyKeyDown && !((Input.GetMouseButtonDown(0)
             || Input.GetMouseButtonDown(1) || Input.GetMouseButtonDown(2))) && !Input.GetKeyDown(KeyCode.X) && !Input.GetKeyDown(KeyCode.Z) && !Input.GetKeyDown(KeyCode.Space))
         {
-            Debug.Log("a key was pressed "+Time.time);
+            Debug.Log("a key was pressed "+Time.time + this.transform.position);
           
             savePosition();
 
             //draw a tail of length 4
             drawTail(snakelength);
-
-
-
         }
 
         if (Input.GetKeyDown(KeyCode.X))

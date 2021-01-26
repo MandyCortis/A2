@@ -6,12 +6,12 @@ using UnityEngine.UI;
 
 public class eventsController : MonoBehaviour
 {
-    GameObject emailInputField, registerButton;
+    GameObject nameInputField, registerButton;
     string myVar = "hello";
     // Start is called before the first frame update
     void Start()
     {
-        emailInputField = GameObject.Find("emailInputField");
+        nameInputField = GameObject.Find("nameInputField");
         registerButton = GameObject.Find("registerButton");
         
         //button callback method 1

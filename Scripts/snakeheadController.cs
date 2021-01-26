@@ -8,7 +8,7 @@ public class snakeheadController : MonoBehaviour
     snakeGenerator mysnakegenerator;
     foodGenerator myfoodgenerator,myfoodgenerator2;
 
-   
+    
     public Vector3 findClosestFood()
     {
         if (myfoodgenerator.allTheFood.Count > 0)
@@ -25,25 +25,20 @@ public class snakeheadController : MonoBehaviour
     {
         while(true)
         {
-
-
             yield return null;
         }
-        
     }
-
 
 
     private void Start()
     {
         mysnakegenerator = Camera.main.GetComponent<snakeGenerator>();
         myfoodgenerator = Camera.main.GetComponent<foodGenerator>();
-        
-
     }
 
     void checkBounds()
     {
+        /*
         if ((transform.position.x < -(Camera.main.orthographicSize-1)) || (transform.position.x > (Camera.main.orthographicSize - 1)))
         {
             transform.position = new Vector3(-transform.position.x,transform.position.y);
@@ -53,24 +48,38 @@ public class snakeheadController : MonoBehaviour
         {
             transform.position = new Vector3(transform.position.x, -transform.position.y);
         }
+        */
+        if (transform.position.x <= -9.5f)
+        {
+            transform.position = new Vector2(-9f, transform.position.y);
+        }
+        else if (transform.position.x >= 9.5f)
+        {
+            transform.position = new Vector2(9f, transform.position.y);
+        }
 
+        // Y axis
+        if (transform.position.y <= -9.5f)
+        {
+            transform.position = new Vector2(transform.position.x, -9f);
+        }
+        else if (transform.position.y >= 9.5f)
+        {
+            transform.position = new Vector2(transform.position.x, 9f);
+        }
 
     }
 
     // Update is called once per frame
     void Update()
     {
-
-        
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
-
             Debug.LogWarning("Closest food" + findClosestFood());
             transform.position -= new Vector3(1f,0);
             checkBounds();
             myfoodgenerator.eatFood(this.transform.position);
             Debug.Log(mysnakegenerator.hitTail(this.transform.position, mysnakegenerator.snakelength));
-
         }
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
@@ -96,9 +105,5 @@ public class snakeheadController : MonoBehaviour
             myfoodgenerator.eatFood(this.transform.position);
             Debug.Log(mysnakegenerator.hitTail(this.transform.position, mysnakegenerator.snakelength));
         }
-
-        
-
-        //Debug.Log(mysnakegenerator.hitTail(this.transform.position, mysnakegenerator.snakelength)); 
     }
 }

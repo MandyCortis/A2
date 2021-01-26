@@ -32,10 +32,12 @@ public class foodGenerator : MonoBehaviour
     public void eatFood(Vector3 snakeHeadPosition)
     {
         positionRecord snakeHeadPos = new positionRecord();
+        Debug.Log(snakeHeadPosition);
 
         snakeHeadPos.Position = snakeHeadPosition;
 
         int foodIndex = allTheFood.IndexOf(snakeHeadPos);
+        Debug.Log(allTheFood.Count);
         
        
         
@@ -78,7 +80,7 @@ public class foodGenerator : MonoBehaviour
     {
         while(true)
         {
-            if (getVisibleFood() < 6) { 
+            if (getVisibleFood() < 10) {
                 yield return new WaitForSeconds(Random.Range(1f, 3f));
 
                 foodPosition = new positionRecord();
@@ -90,13 +92,10 @@ public class foodGenerator : MonoBehaviour
                 Vector3 randomLocation = new Vector3(randomX, randomY);
 
                 //don't allow the food to be spawned on other food
-
                 foodPosition.Position = randomLocation;
 
                 if (!allTheFood.Contains(foodPosition) && !sn.hitTail(foodPosition.Position,sn.snakelength))
-
                 {
-
                     foodPosition.BreadcrumbBox = Instantiate(foodObject, randomLocation, Quaternion.Euler(0f, 0f, 45f));
 
 
@@ -112,17 +111,13 @@ public class foodGenerator : MonoBehaviour
 
                     allTheFood.Add(foodPosition);
                 }
-
                 yield return null;
             }
 
-
             yield return null;
-
         }
     }
 
-    squareGenerator mysquareGenerator;
 
     // Start is called before the first frame update
     void Start()
@@ -131,7 +126,7 @@ public class foodGenerator : MonoBehaviour
 
         allTheFood = new List<positionRecord>();
 
-        foodObject = Resources.Load<GameObject>("Prefabs/Square");
+        foodObject = Resources.Load<GameObject>("Prefabs/Food");
 
         sn = Camera.main.GetComponent<snakeGenerator>();
 
