@@ -90,10 +90,11 @@ public class snakeGenerator : MonoBehaviour
 
     foodGenerator fgen;
     snakeheadController snakeController;
+    timerCanvas timerCanvas;
 
     Color snakeColor;
 
-    GameObject playerBox,breadcrumbBox,pathParent,timerUI;
+    GameObject playerBox,breadcrumbBox,pathParent;
 
     List<positionRecord> pastPositions;
 
@@ -120,11 +121,8 @@ public class snakeGenerator : MonoBehaviour
 
         playerBox = Instantiate(Resources.Load<GameObject>("Prefabs/Snake"), new Vector3(-8, 9, 0), Quaternion.identity);
 
-        timerUI = Instantiate(Resources.Load<GameObject>("Prefabs/Timer"), new Vector3(0f, 0f), Quaternion.identity);
-
-        //the default value for the timer is started
-        timerUI.GetComponentInChildren<timerManager>().timerStarted = true;
-
+        timerCanvas = Camera.main.GetComponent<timerCanvas>();
+        
        
         pathParent = new GameObject();
 
@@ -133,7 +131,7 @@ public class snakeGenerator : MonoBehaviour
         pathParent.name = "Path Parent";
 
         
-        breadcrumbBox = Resources.Load <GameObject>("Prefabs/Food");
+        breadcrumbBox = Resources.Load <GameObject>("Prefabs/Snake");
 
         playerBox.GetComponent<SpriteRenderer>().color = Color.black;
 
@@ -149,8 +147,7 @@ public class snakeGenerator : MonoBehaviour
         StartCoroutine(waitToGenerateFood());
 
         drawTail(snakelength);
-
-
+        
        
     }
 
@@ -320,7 +317,9 @@ public class snakeGenerator : MonoBehaviour
         {
             if ((headPosition == pastPositions[snakeblocks].Position) && (pastPositions[snakeblocks].BreadcrumbBox != null))
             {
+                
                 SceneManager.LoadScene("GameOver");
+                Destroy(timerCanvas);
                 return true;
             }
         }

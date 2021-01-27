@@ -93,6 +93,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timerStarted: 0
+  timerValue: 0
 --- !u!1 &6884174041143387782
 GameObject:
   m_ObjectHideFlags: 0
@@ -105,6 +106,7 @@ GameObject:
   - component: {fileID: 6777128841621494423}
   - component: {fileID: 5928726871025646475}
   - component: {fileID: 6550327288368440799}
+  - component: {fileID: 6224784526638609674}
   m_Layer: 5
   m_Name: Timer
   m_TagString: Untagged
@@ -192,3 +194,15 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &6224784526638609674
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6884174041143387782}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e0b3371d2e25824e921c64924cf2e55, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

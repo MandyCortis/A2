@@ -39,9 +39,6 @@ public class foodGenerator : MonoBehaviour
         int foodIndex = allTheFood.IndexOf(snakeHeadPos);
         Debug.Log(allTheFood.Count);
         
-       
-        
-
 
         //if I have a list as follows
 
@@ -52,7 +49,6 @@ public class foodGenerator : MonoBehaviour
         //indexof(0,0) = 0
 
         //indexof(-5,2) = -1
-
 
         if (foodIndex != -1)
         { 
@@ -68,13 +64,9 @@ public class foodGenerator : MonoBehaviour
             allTheFood.RemoveAt(foodIndex);
 
             sn.snakelength++;
-
-            
         }
-
-
-
     }
+
 
     public IEnumerator generateFood()
     {
@@ -132,9 +124,5 @@ public class foodGenerator : MonoBehaviour
 
        // StartCoroutine(generateFood());
 
-
     }
-
-
-    
 }

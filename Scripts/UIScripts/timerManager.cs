@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class timerManager : MonoBehaviour
@@ -8,12 +9,13 @@ public class timerManager : MonoBehaviour
 
     public bool timerStarted;
 
-    float timerValue=0f;
+    public float timerValue=0f;
 
     Text timerText;
-    
 
-    IEnumerator timer()
+
+
+        IEnumerator timer()
     {
         while(true)
         { 
@@ -47,10 +49,17 @@ public class timerManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
         //the text component attached to THIS object
         timerText = GetComponent<Text>();
-        StartCoroutine(timer()); 
-    }
+        StartCoroutine(timer());
 
-    
+        //Invoke("ReloadLevel", timerValue);
+    }
+    /*
+    void ReloadLevel()
+    {
+        SceneManager.sceneLoaded += SceneManager.LoadScene;
+    }
+    */
 }

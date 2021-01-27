@@ -5,6 +5,12 @@ using UnityEngine.SceneManagement;
 
 public class wallTrigger : MonoBehaviour
 {
+    timerCanvas tm;
+
+    private void Start()
+    {
+        tm = Camera.main.GetComponent<timerCanvas>();
+    }
     void OnTriggerEnter(Collider collision)
     {
         print("triggered");
@@ -12,7 +18,7 @@ public class wallTrigger : MonoBehaviour
         {
             print("collided with wall");
             SceneManager.LoadScene("GameOver");
-            
+            Destroy(tm);
         }
         else if(collision.gameObject.tag == "food")
         {

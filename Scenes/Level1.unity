@@ -135,8 +135,8 @@ GameObject:
   - component: {fileID: 59512391}
   - component: {fileID: 59512390}
   - component: {fileID: 59512393}
-  - component: {fileID: 59512394}
   - component: {fileID: 59512395}
+  - component: {fileID: 59512396}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -222,18 +222,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   snakelength: 0
---- !u!114 &59512394
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 59512389}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a18b5ef0e03fa34fa253b551138cd2f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &59512395
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -244,6 +232,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1313bb029782674439ae144023ea1f98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &59512396
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 59512389}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ebeac2211ff889d408180feac8229efb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &135779798
@@ -480,8 +480,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 354016312}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7, y: -7, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -9.121, y: -7, z: 0}
+  m_LocalScale: {x: 0.17163457, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 4
@@ -802,7 +802,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.76620317, y: 1, z: 0}
+  m_Size: {x: 0.82614523, y: 1, z: 0}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &967042743
 MonoBehaviour:
@@ -1386,7 +1386,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1875858579}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: MazeWalls
   m_TagString: wall
   m_Icon: {fileID: 0}
