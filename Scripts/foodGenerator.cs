@@ -7,12 +7,17 @@ public class foodGenerator : MonoBehaviour
     positionRecord foodPosition;
 
     GameObject foodObject;
+    GameObject enemySnake;
 
     public List<positionRecord> allTheFood;
 
 
     snakeGenerator sn;
 
+    private float timer = 0.0f;
+    private float waitTime = 3.0f;
+
+    bool hasSpawned = false;
 
 
     int getVisibleFood()
@@ -72,8 +77,8 @@ public class foodGenerator : MonoBehaviour
     {
         while(true)
         {
-            if (getVisibleFood() < 10) {
-                yield return new WaitForSeconds(Random.Range(1f, 3f));
+            if (getVisibleFood() < 50) {
+                yield return new WaitForSeconds(0.1f/*(Random.Range(1f, 3f)*/);
 
                 foodPosition = new positionRecord();
 
@@ -88,20 +93,27 @@ public class foodGenerator : MonoBehaviour
 
                 if (!allTheFood.Contains(foodPosition) && !sn.hitTail(foodPosition.Position,sn.snakelength))
                 {
-                    foodPosition.BreadcrumbBox = Instantiate(foodObject, randomLocation, Quaternion.Euler(0f, 0f, 45f));
+                    
+                    if(Physics2D.OverlapCircleAll(randomLocation, 0.1f).Length == 0)
+                    {
+                        foodPosition.BreadcrumbBox = Instantiate(foodObject, randomLocation, Quaternion.Euler(0f, 0f, 45f));
+
+                        foodPosition.BreadcrumbBox.transform.parent = GameObject.Find("FoodParent").transform;
+
+                        //make the food half the size
+                        foodPosition.BreadcrumbBox.transform.localScale = new Vector3(0.5f, 0.5f);
 
 
-                    //make the food half the size
-                    foodPosition.BreadcrumbBox.transform.localScale = new Vector3(0.5f,0.5f);
+                        foodPosition.BreadcrumbBox.GetComponent<SpriteRenderer>().color = Random.ColorHSV();
 
+                        foodPosition.BreadcrumbBox.transform.localScale = new Vector3(0.5f, 0.5f);
 
-                    foodPosition.BreadcrumbBox.GetComponent<SpriteRenderer>().color = Random.ColorHSV();
+                        foodPosition.BreadcrumbBox.name = "Food Object";
 
-                    foodPosition.BreadcrumbBox.transform.localScale = new Vector3(0.5f, 0.5f);
+                        allTheFood.Add(foodPosition);
+                    }
 
-                    foodPosition.BreadcrumbBox.name = "Food Object";
-
-                    allTheFood.Add(foodPosition);
+                    
                 }
                 yield return null;
             }
@@ -122,7 +134,32 @@ public class foodGenerator : MonoBehaviour
 
         sn = Camera.main.GetComponent<snakeGenerator>();
 
-       // StartCoroutine(generateFood());
+        enemySnake = Resources.Load<GameObject>("Prefabs/Enemy");
 
+        timer += Time.deltaTime;
+        // StartCoroutine(generateFood());
+
+    }
+
+    public void TransformFood()
+    {
+        if (timer > waitTime && hasSpawned)
+        {
+            int randomObj = Random.Range(0, GameObject.Find("FoodParent").transform.childCount);
+            print("random food" + randomObj);
+
+            Vector3 tempPos = GameObject.Find("FoodParent").transform.GetChild(randomObj).transform.position;
+            Instantiate(enemySnake, tempPos, Quaternion.identity);
+
+            Destroy(GameObject.Find("FoodParent").transform.GetChild(randomObj));
+
+            hasSpawned = true;
+        }
+        
+    }
+
+    void Update()
+    {
+        TransformFood();
     }
 }

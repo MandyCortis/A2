@@ -98,6 +98,8 @@ public class snakeGenerator : MonoBehaviour
 
     List<positionRecord> pastPositions;
 
+    //public Object target;
+
 
     IEnumerator waitToGenerateFood()
     {
@@ -147,12 +149,13 @@ public class snakeGenerator : MonoBehaviour
         StartCoroutine(waitToGenerateFood());
 
         drawTail(snakelength);
-        
+
+
+        //target = playerBox;
        
     }
 
-    //TASK 1: create a coroutine based on this code that when the X key is pressed, the box is going to go through
-    //all its past positions, until it gets to the beginning. The speed should be one position every second
+
     IEnumerator reverseMoves()
     {
         //1. check that we have more than 5 moves, otherwise don't run
@@ -195,7 +198,6 @@ public class snakeGenerator : MonoBehaviour
     }
     
 
-    // Update is called once per frame
 
     bool boxExists(Vector3 positionToCheck)
     {
@@ -317,13 +319,11 @@ public class snakeGenerator : MonoBehaviour
         {
             if ((headPosition == pastPositions[snakeblocks].Position) && (pastPositions[snakeblocks].BreadcrumbBox != null))
             {
-                
                 SceneManager.LoadScene("GameOver");
-                Destroy(timerCanvas);
+                //Destroy(timerCanvas);
                 return true;
             }
         }
-
        return false;
 
     }
@@ -344,7 +344,7 @@ public class snakeGenerator : MonoBehaviour
 
     void Update()
     {
-        
+        /*
         if (Input.anyKeyDown && !((Input.GetMouseButtonDown(0)
             || Input.GetMouseButtonDown(1) || Input.GetMouseButtonDown(2))) && !Input.GetKeyDown(KeyCode.X) && !Input.GetKeyDown(KeyCode.Z) && !Input.GetKeyDown(KeyCode.Space))
         {
@@ -366,12 +366,8 @@ public class snakeGenerator : MonoBehaviour
         {
             clearTail();
         }
-
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            StartCoroutine(snakeController.automoveCoroutine());
-          //  StartCoroutine(Task5());
-        }
+        */
+        
 
 
     }

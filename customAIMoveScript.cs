@@ -11,8 +11,13 @@ public class customAIMoveScript : MonoBehaviour
 
     Path pathToFollow;
 
+    snakeGenerator sg;
 
     public Transform target;
+
+    public int snakelength;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -21,7 +26,16 @@ public class customAIMoveScript : MonoBehaviour
         seeker = GetComponent<Seeker>();
 
         seeker.StartPath(transform.position, target.position, ReadyToMove);
+
+
+        //drawTail(snakelength);
+
+
+        sg = Camera.main.GetComponent<snakeGenerator>();
+        //GameObject.Find("playerBox").GetComponent<snakeGenerator>().target = sg;
     }
+
+
     //when the path is generated this method is called.
     void ReadyToMove(Path p)
     {
@@ -46,70 +60,65 @@ public class customAIMoveScript : MonoBehaviour
 
     //Task: can we give the robot a tail, just like we did with snake?
 
-
-
-/*
- *  void drawTail(int length)
-{
-    clearTail();
-
-    if (pastPositions.Count>length)
+    /*
+    void drawTail(int length)
     {
-        //nope
-        //I do have enough positions in the past positions list
-        //the first block behind the player
-        int tailStartIndex = pastPositions.Count - 1;
-        int tailEndIndex = tailStartIndex - length;
 
-
-        //if length = 4, this should give me the last 4 blocks
-        for (int snakeblocks = tailStartIndex;snakeblocks>tailEndIndex;snakeblocks--)
+        if (pastPositions.Count > length)
         {
-            //prints the past position and its order in the list
-            //Debug.Log(pastPositions[snakeblocks].Position + " " + pastPositions[snakeblocks].PositionOrder);
+            //nope
+            //I do have enough positions in the past positions list
+            //the first block behind the player
+            int tailStartIndex = pastPositions.Count - 1;
+            int tailEndIndex = tailStartIndex - length;
 
-            Debug.Log(snakeblocks);
 
-            pastPositions[snakeblocks].BreadcrumbBox = Instantiate(breadcrumbBox, pastPositions[snakeblocks].Position, Quaternion.identity);
-            pastPositions[snakeblocks].BreadcrumbBox.GetComponent<SpriteRenderer>().color = snakeColor;
+            //if length = 4, this should give me the last 4 blocks
+            for (int snakeblocks = tailStartIndex; snakeblocks > tailEndIndex; snakeblocks--)
+            {
+                //prints the past position and its order in the list
+                //Debug.Log(pastPositions[snakeblocks].Position + " " + pastPositions[snakeblocks].PositionOrder);
+
+                Debug.Log(snakeblocks);
+
+                pastPositions[snakeblocks].BreadcrumbBox = Instantiate(breadcrumbBox, pastPositions[snakeblocks].Position, Quaternion.identity);
+                pastPositions[snakeblocks].BreadcrumbBox.GetComponent<SpriteRenderer>().color = snakeColor;
+
+            }
 
         }
 
-    } 
-
-    if (firstrun)
-    {
-
-        //I don't have enough positions in the past positions list
-        for(int count =length;count>0;count--)
+        if (firstrun)
         {
-            positionRecord fakeBoxPos = new positionRecord();
-            float ycoord = count * -1;
-            fakeBoxPos.Position = new Vector3(0f, ycoord);
-           // Debug.Log(new Vector3(0f, ycoord));
-            //fakeBoxPos.BreadcrumbBox = Instantiate(breadcrumbBox, fakeBoxPos.Position, Quaternion.identity);
-            //fakeBoxPos.BreadcrumbBox.GetComponent<SpriteRenderer>().color = Color.yellow;
-            pastPositions.Add(fakeBoxPos);
+
+            //I don't have enough positions in the past positions list
+            for (int count = length; count > 0; count--)
+            {
+                positionRecord fakeBoxPos = new positionRecord();
+                float ycoord = count * -1;
+                fakeBoxPos.Position = new Vector3(0f, ycoord);
+                // Debug.Log(new Vector3(0f, ycoord));
+                //fakeBoxPos.BreadcrumbBox = Instantiate(breadcrumbBox, fakeBoxPos.Position, Quaternion.identity);
+                //fakeBoxPos.BreadcrumbBox.GetComponent<SpriteRenderer>().color = Color.yellow;
+                pastPositions.Add(fakeBoxPos);
 
 
 
 
+            }
+            firstrun = false;
+            drawTail(length);
+            //Debug.Log("Not long enough yet");
         }
-        firstrun = false;
-        drawTail(length);
-        //Debug.Log("Not long enough yet");
+
     }
+    */
 
-}
+    // Update is called once per frame
+    void Update()
+    {
 
-
-*/
-
-// Update is called once per frame
-void Update()
-{
-
-}
+    }
 }
 
 

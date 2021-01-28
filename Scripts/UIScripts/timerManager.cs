@@ -15,10 +15,10 @@ public class timerManager : MonoBehaviour
 
 
 
-        IEnumerator timer()
+    IEnumerator timer()
     {
-        while(true)
-        { 
+        while (true)
+        {
             if (timerStarted)
             {
                 //measure the time
@@ -29,7 +29,6 @@ public class timerManager : MonoBehaviour
 
                 timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
 
-
                 //code that is running every second
                 yield return new WaitForSeconds(1f);
             }
@@ -39,9 +38,7 @@ public class timerManager : MonoBehaviour
                 timerValue = 0f;
                 timerText.text = string.Format("{0:00}:{1:00}", 0f, 0f);
                 yield return null;
-
             }
-            
         }
     }
 

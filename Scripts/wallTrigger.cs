@@ -11,7 +11,7 @@ public class wallTrigger : MonoBehaviour
     {
         tm = Camera.main.GetComponent<timerCanvas>();
     }
-    void OnTriggerEnter(Collider collision)
+    void OnTriggerEnter2D(Collider2D collision)
     {
         print("triggered");
         if (collision.gameObject.tag == "snakeHead")
