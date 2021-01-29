@@ -12,11 +12,28 @@ public class advanceLevel : MonoBehaviour
         sg = Camera.main.GetComponent<snakeGenerator>();
     }
 
-    void OnTriggerEnter(Collider collision)
+    void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "snakeHead" && sg.snakelength >= 6)
+        if (SceneManager.GetActiveScene().name == "Level1")
         {
-            SceneManager.LoadScene("Level2");
+            if (collision.gameObject.tag == "snakeHead" && sg.snakelength >= 6)
+            {
+                SceneManager.LoadScene("Level2");
+            }
+        }
+        else if (SceneManager.GetActiveScene().name == "Level2")
+        {
+            if (collision.gameObject.tag == "snakeHead" && sg.snakelength >= 6)
+            {
+                SceneManager.LoadScene("Level3");
+            }
+        }
+        else if (SceneManager.GetActiveScene().name == "Level3")
+        {
+            if (collision.gameObject.tag == "snakeHead" && sg.snakelength >= 6)
+            {
+                SceneManager.LoadScene("Win");
+            }
         }
     }
 }

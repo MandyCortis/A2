@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class timerCanvas : MonoBehaviour
 {
@@ -19,4 +20,16 @@ public class timerCanvas : MonoBehaviour
         timerUI.GetComponentInChildren<timerManager>().timerStarted = true;
     }
 
+    void DestroyTimer()
+    {
+        if (SceneManager.GetActiveScene().name == "GameOver")
+        {
+            Destroy(timerUI);
+        }
+    }
+
+    void Update()
+    {
+        DestroyTimer();
+    }
 }

@@ -8,7 +8,8 @@ public class exerciseScript : MonoBehaviour
 
     public Transform obs1, obs2, obs3;
 
-    int waypointsChildren = GameObject.Find("Waypoints").transform.childCount;
+    int waypointsChildren;
+
 
     IEnumerator moveObs1()
     {
@@ -27,6 +28,7 @@ public class exerciseScript : MonoBehaviour
             }
             yield return null;
         }
+        
     }
 
     IEnumerator moveObs2()
@@ -71,9 +73,14 @@ public class exerciseScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        waypointsChildren = GameObject.Find("Waypoints").transform.childCount; 
         StartCoroutine(moveObs1());
         StartCoroutine(moveObs2());
         StartCoroutine(moveObs3());
     }
-   
+
+    private void Update()
+    {
+        AstarPath.active.Scan();
+    }
 }

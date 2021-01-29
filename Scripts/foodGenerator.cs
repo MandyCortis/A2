@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class foodGenerator : MonoBehaviour
 {
@@ -18,6 +19,7 @@ public class foodGenerator : MonoBehaviour
     private float waitTime = 3.0f;
 
     bool hasSpawned = false;
+    bool generateEnemey = false;
 
 
     int getVisibleFood()
@@ -30,7 +32,6 @@ public class foodGenerator : MonoBehaviour
                 counter++;
             }
         }
-
         return counter;
     }
 
@@ -77,8 +78,8 @@ public class foodGenerator : MonoBehaviour
     {
         while(true)
         {
-            if (getVisibleFood() < 50) {
-                yield return new WaitForSeconds(0.1f/*(Random.Range(1f, 3f)*/);
+            if (getVisibleFood() < 6) {
+                yield return new WaitForSeconds(0.5f/*(Random.Range(1f, 3f)*/);
 
                 foodPosition = new positionRecord();
 
@@ -117,7 +118,13 @@ public class foodGenerator : MonoBehaviour
                 }
                 yield return null;
             }
-
+            if(allTheFood.Count == 6)
+            {
+                generateEnemey = true;
+                yield return null;
+            }
+            
+            
             yield return null;
         }
     }
@@ -137,29 +144,47 @@ public class foodGenerator : MonoBehaviour
         enemySnake = Resources.Load<GameObject>("Prefabs/Enemy");
 
         timer += Time.deltaTime;
-        // StartCoroutine(generateFood());
+        StartCoroutine(TransformFoodTimer());
 
     }
 
-    public void TransformFood()
+
+    IEnumerator TransformFoodTimer()
     {
-        if (timer > waitTime && hasSpawned)
+        if (SceneManager.GetActiveScene().name == "Level2" || SceneManager.GetActiveScene().name == "Level3")
         {
-            int randomObj = Random.Range(0, GameObject.Find("FoodParent").transform.childCount);
-            print("random food" + randomObj);
-
-            Vector3 tempPos = GameObject.Find("FoodParent").transform.GetChild(randomObj).transform.position;
-            Instantiate(enemySnake, tempPos, Quaternion.identity);
-
-            Destroy(GameObject.Find("FoodParent").transform.GetChild(randomObj));
-
-            hasSpawned = true;
+            print("in scene2" +getVisibleFood());
+            while (true)
+            {
+                if (generateEnemey && !hasSpawned)
+                {
+                    print("waiting");
+                    yield return new WaitForSeconds(3f);
+                    StartCoroutine(TransformFood());
+                    generateEnemey = false;
+                }
+                yield return null;
+            }
         }
-        
     }
 
-    void Update()
+
+    IEnumerator TransformFood()
     {
-        TransformFood();
+
+        Transform foodChild = GameObject.Find("FoodParent").transform;
+
+        int randomObj = Random.Range(0, allTheFood.Count - 1);
+
+        GameObject food = allTheFood[randomObj].BreadcrumbBox;
+        Vector3 childPos = food.transform.position;
+
+        Destroy(food);
+        Instantiate(enemySnake, childPos, Quaternion.identity);
+
+        hasSpawned = true;
+    
+        yield return null;
+        
     }
 }

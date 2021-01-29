@@ -6,7 +6,7 @@ using UnityEngine;
 public class snakeheadController : MonoBehaviour
 {
     snakeGenerator mysnakegenerator;
-    foodGenerator myfoodgenerator,myfoodgenerator2;
+    foodGenerator myfoodgenerator;
 
     
     public Vector3 findClosestFood()
@@ -79,7 +79,7 @@ public class snakeheadController : MonoBehaviour
             transform.position -= new Vector3(1f,0);
             checkBounds();
             myfoodgenerator.eatFood(this.transform.position);
-            Debug.Log(mysnakegenerator.hitTail(this.transform.position, mysnakegenerator.snakelength));
+            Debug.Log("left" + mysnakegenerator.hitTail(this.transform.position, mysnakegenerator.snakelength));
         }
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
@@ -87,7 +87,7 @@ public class snakeheadController : MonoBehaviour
             transform.position += new Vector3(1f, 0);
             checkBounds();
             myfoodgenerator.eatFood(this.transform.position);
-            Debug.Log(mysnakegenerator.hitTail(this.transform.position, mysnakegenerator.snakelength));
+            Debug.Log("right" +mysnakegenerator.hitTail(this.transform.position, mysnakegenerator.snakelength));
         }
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
@@ -95,7 +95,7 @@ public class snakeheadController : MonoBehaviour
             transform.position += new Vector3(0, 1f);
             checkBounds();
             myfoodgenerator.eatFood(this.transform.position);
-            Debug.Log(mysnakegenerator.hitTail(this.transform.position, mysnakegenerator.snakelength));
+            Debug.Log("up" + mysnakegenerator.hitTail(this.transform.position, mysnakegenerator.snakelength));
         }
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
@@ -103,7 +103,7 @@ public class snakeheadController : MonoBehaviour
             transform.position -= new Vector3(0, 1f);
             checkBounds();
             myfoodgenerator.eatFood(this.transform.position);
-            Debug.Log(mysnakegenerator.hitTail(this.transform.position, mysnakegenerator.snakelength));
+            Debug.Log("down" + mysnakegenerator.hitTail(this.transform.position, mysnakegenerator.snakelength));
         }
     }
 }

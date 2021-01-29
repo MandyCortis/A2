@@ -291,19 +291,17 @@ public class snakeGenerator : MonoBehaviour
         if (firstrun)
         {
             //I don't have enough positions in the past positions list
-            for(int count =length;count>0;count--)
+            for(int count = length; count > 0; count--)
             {
                 positionRecord fakeBoxPos = new positionRecord();
-                float ycoord = count * -1;
-                fakeBoxPos.Position = new Vector3(0f, ycoord);
-               // Debug.Log(new Vector3(0f, ycoord));
+                //float ycoord = count * -1;
+                fakeBoxPos.Position = new Vector3(-9f, 9);
                 //fakeBoxPos.BreadcrumbBox = Instantiate(breadcrumbBox, fakeBoxPos.Position, Quaternion.identity);
                 //fakeBoxPos.BreadcrumbBox.GetComponent<SpriteRenderer>().color = Color.yellow;
                 pastPositions.Add(fakeBoxPos);
             }
             firstrun = false;
             drawTail(length);
-            //Debug.Log("Not long enough yet");
         }
     }
 
@@ -344,7 +342,7 @@ public class snakeGenerator : MonoBehaviour
 
     void Update()
     {
-        /*
+        
         if (Input.anyKeyDown && !((Input.GetMouseButtonDown(0)
             || Input.GetMouseButtonDown(1) || Input.GetMouseButtonDown(2))) && !Input.GetKeyDown(KeyCode.X) && !Input.GetKeyDown(KeyCode.Z) && !Input.GetKeyDown(KeyCode.Space))
         {
@@ -366,7 +364,7 @@ public class snakeGenerator : MonoBehaviour
         {
             clearTail();
         }
-        */
+        
         
 
 
