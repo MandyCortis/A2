@@ -35,5 +35,5 @@ public class advanceLevel : MonoBehaviour
                 SceneManager.LoadScene("Win");
             }
         }
-    }
+    } 
 }

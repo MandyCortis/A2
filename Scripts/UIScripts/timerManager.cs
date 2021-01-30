@@ -6,12 +6,34 @@ using UnityEngine.UI;
 
 public class timerManager : MonoBehaviour
 {
-
     public bool timerStarted;
 
     public float timerValue=0f;
 
-    Text timerText;
+    public Text highScore;
+
+    public static Text timerText;
+    public string timerString;
+
+
+    void Start()
+    {
+        //gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        //the text component attached to THIS object
+        timerText = GetComponent<Text>();
+        StartCoroutine(timer());
+        timerString = timerText.ToString();
+        /*
+        if (PlayerPrefs.HasKey("HighScore") == true)
+        {
+            highScore.text = PlayerPrefs.GetInt("HighScore").ToString();
+        }
+        else
+        {
+            highScore.text = "No HighScore yet";
+        }
+        */
+    }
 
 
 
@@ -39,24 +61,11 @@ public class timerManager : MonoBehaviour
                 timerText.text = string.Format("{0:00}:{1:00}", 0f, 0f);
                 yield return null;
             }
+            
         }
+        
     }
+
 
     
-    // Start is called before the first frame update
-    void Start()
-    {
-
-        //the text component attached to THIS object
-        timerText = GetComponent<Text>();
-        StartCoroutine(timer());
-
-        //Invoke("ReloadLevel", timerValue);
-    }
-    /*
-    void ReloadLevel()
-    {
-        SceneManager.sceneLoaded += SceneManager.LoadScene;
-    }
-    */
 }

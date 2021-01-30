@@ -94,6 +94,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timerStarted: 0
   timerValue: 0
+  timerFinal: 
 --- !u!1 &6884174041143387782
 GameObject:
   m_ObjectHideFlags: 0
@@ -107,6 +108,7 @@ GameObject:
   - component: {fileID: 5928726871025646475}
   - component: {fileID: 6550327288368440799}
   - component: {fileID: 6224784526638609674}
+  - component: {fileID: -5754952542035670320}
   m_Layer: 5
   m_Name: Timer
   m_TagString: Untagged
@@ -143,7 +145,7 @@ Canvas:
   m_GameObject: {fileID: 6884174041143387782}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
+  m_RenderMode: 1
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
@@ -167,7 +169,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
@@ -204,5 +206,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8e0b3371d2e25824e921c64924cf2e55, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scoreText: {fileID: 0}
+  playerName: 
+  time: 0
+--- !u!114 &-5754952542035670320
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6884174041143387782}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bd4e1119843e62429a496a4c7686f56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

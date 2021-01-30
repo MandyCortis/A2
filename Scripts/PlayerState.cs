@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerState : MonoBehaviour
 {
+	/*
 	public static PlayerState Instance;
 
 	public Transform playerPosition;
@@ -27,4 +28,5 @@ public class PlayerState : MonoBehaviour
 	{
 		localPlayerData = GameControl.Instance.savedPlayerData;
 	}
+	*/
 }

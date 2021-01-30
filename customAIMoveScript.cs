@@ -22,6 +22,18 @@ public class customAIMoveScript : MonoBehaviour
     GameObject graphParent;
 
 
+
+
+    foodGenerator fgen;
+    List<positionRecord> enemyPastPos;
+    bool firstrun = true;
+    GameObject enemyAI, breadcrumbBox, pathParent;
+    int enemyPos = 0;
+    int enemyLength = GameManager.enemyLength;
+
+    LineRenderer lineRenderer;
+    bool showPath = false;
+
     void Start()
     {
         //the instance of the seeker attached to this game object
@@ -42,8 +54,22 @@ public class customAIMoveScript : MonoBehaviour
         StartCoroutine(updateGraph());
         //move the enemy towards the snakeHead
         StartCoroutine(moveTowardsPlayer(this.transform));
+
+
+
+
+
+
+        enemyAI = GameObject.FindGameObjectWithTag("enemy");
     }
 
+    private void Update()
+    {
+        savePosition();
+
+        //draw a tail of length 4
+        drawTail(enemyLength);
+    }
 
     IEnumerator updateGraph()
     {
@@ -61,15 +87,16 @@ public class customAIMoveScript : MonoBehaviour
         while (true)
         {
             List<Vector3> posns = pathToFollow.vectorPath;
-            Debug.Log("Positions Count: " + posns.Count);
 
             for (int counter = 0; counter < posns.Count; counter++)
             {
                 if (posns[counter] != null)
                 {
-                    while (Vector3.Distance(t.position, posns[counter]) >= 0.5f)
+                    while (Vector3.Distance(t.position, posns[counter]) >= 1f)
                     {
                         t.position = Vector3.MoveTowards(t.position, posns[counter], 1f);
+                        //drawTail(enemyLength);
+                        //savePosition();
                         //since the enemy is moving, I need to make sure that I am following him
                         pathToFollow = seeker.StartPath(t.position, target.position);
                         //wait until the path is generated
@@ -98,10 +125,114 @@ public class customAIMoveScript : MonoBehaviour
         }
     }
 
+
+
+
+    void drawTail(int length)
+    {
+        clearTail();
+        if (enemyPastPos.Count > length)
+        {
+            //the first block behind the player
+            int tailStartIndex = enemyPastPos.Count - 1;
+            int tailEndIndex = tailStartIndex - length;
+
+            //if length = 4, this should give me the last 4 blocks
+            for (int snakeblocks = tailStartIndex; snakeblocks > tailEndIndex; snakeblocks--)
+            {
+                enemyPastPos[snakeblocks].BreadcrumbBox = Instantiate(enemyAI, enemyPastPos[snakeblocks].Position, Quaternion.identity);
+                enemyPastPos[snakeblocks].BreadcrumbBox.GetComponent<SpriteRenderer>().color = Color.red;
+            }
+        }
+
+        if (firstrun)
+        {
+            for (int count = length; count > 0; count--)
+            {
+                positionRecord fakeBoxPos = new positionRecord();
+                
+                fakeBoxPos.Position = new Vector3(this.gameObject.transform.position.x, this.gameObject.transform.position.y);
+                enemyPastPos.Add(fakeBoxPos);
+            }
+            firstrun = false;
+            drawTail(GameManager.enemyLength);
+        }
+    }
+
+
+    void clearTail()
+    {
+        //cleanList();
+        foreach (positionRecord p in enemyPastPos)
+        {
+            Destroy(p.BreadcrumbBox);
+        }
+    }
+
+
+    bool boxExists(Vector3 positionToCheck)
+    {
+        foreach (positionRecord p in enemyPastPos)
+        {
+            if (p.Position == positionToCheck)
+            {
+                if (p.BreadcrumbBox != null)
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+
+    void savePosition()
+    {
+        positionRecord currentBoxPos = new positionRecord();
+
+        currentBoxPos.Position = this.gameObject.transform.position;
+        enemyPos++;
+        currentBoxPos.PositionOrder = enemyPos;
+
+        if (!boxExists(this.gameObject.transform.position))
+        {
+            currentBoxPos.BreadcrumbBox = Instantiate(breadcrumbBox, this.transform.position, Quaternion.identity);
+
+            //currentBoxPos.BreadcrumbBox.transform.SetParent(pathParent.transform);
+
+            //currentBoxPos.BreadcrumbBox.name = enemyPos.ToString();
+
+            currentBoxPos.BreadcrumbBox.GetComponent<SpriteRenderer>().sortingOrder = -1;
+        }
+
+        enemyPastPos.Add(currentBoxPos);
+    }
+
+
+
+    void cleanList()
+    {
+        for (int counter = enemyPastPos.Count - 1; counter > enemyPastPos.Count; counter--)
+        {
+            enemyPastPos[counter] = null;
+        }
+    }
+
+
+    void SeekerMode(Transform t)
+    {
+        Vector3[] linePosList;
+        if (showPath)
+        {
+            if (pathToFollow.vectorPath.Count < 2)
+            {
+                return;
+            }
+            int x = 1;
+        }
+    }
+
 }
-
-
-
 
 /*
 IEnumerator MoveTo(Transform pos)
@@ -137,116 +268,8 @@ IEnumerator thePath()
 
 
 
- IEnumerator Task5()
-    {
-        //this takes me to the edge of the screen
-        float xpos = 0f;
-        while (xpos < 10f)
-        {
-            Debug.Log(xpos);
-            enemyBox.transform.position += new Vector3(1f, 0f);
-            xpos++;
-            savePosition();
-            yield return new WaitForSeconds(0.1f);
-        }
-        yield return null;
-    }
 
-
-    void drawTail(int length)
-    {
-        clearTail();
-        if (pastPositions.Count > length)
-        {
-            //the first block behind the player
-            int tailStartIndex = pastPositions.Count - 1;
-            int tailEndIndex = tailStartIndex - length;
-
-            //if length = 4, this should give me the last 4 blocks
-            for (int snakeblocks = tailStartIndex; snakeblocks > tailEndIndex; snakeblocks--)
-            {
-                pastPositions[snakeblocks].BreadcrumbBox = Instantiate(breadcrumbBox, pastPositions[snakeblocks].Position, Quaternion.identity);
-            }
-        }
-
-        if (firstrun)
-        {
-            for (int count = length; count > 0; count--)
-            {
-                positionRecord fakeBoxPos = new positionRecord();
-                float ycoord = count * -1;
-                fakeBoxPos.Position = new Vector3(0f, ycoord);
-                pastPositions.Add(fakeBoxPos);
-            }
-            firstrun = false;
-            drawTail(length);
-        }
-    }
-
-
-    void clearTail()
-    {
-        //cleanList();
-        foreach (positionRecord p in pastPositions)
-        {
-            Destroy(p.BreadcrumbBox);
-        }
-    }
-
-
-    bool boxExists(Vector3 positionToCheck)
-    {
-        foreach (positionRecord p in pastPositions)
-        {
-            if (p.Position == positionToCheck)
-            {
-                Debug.Log(p.Position + "Actually was a past position");
-                if (p.BreadcrumbBox != null)
-                {
-                    Debug.Log(p.Position + "Actually has a red box already");
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-
-    void savePosition()
-    {
-        positionRecord currentBoxPos = new positionRecord();
-
-        currentBoxPos.Position = enemyBox.transform.position;
-        positionorder++;
-        currentBoxPos.PositionOrder = positionorder;
-
-        if (!boxExists(enemyBox.transform.position))
-        {
-            currentBoxPos.BreadcrumbBox = Instantiate(breadcrumbBox, enemyBox.transform.position, Quaternion.identity);
-
-            currentBoxPos.BreadcrumbBox.transform.SetParent(pathParent.transform);
-
-            currentBoxPos.BreadcrumbBox.name = positionorder.ToString();
-
-            currentBoxPos.BreadcrumbBox.GetComponent<SpriteRenderer>().color = Color.red;
-
-            currentBoxPos.BreadcrumbBox.GetComponent<SpriteRenderer>().sortingOrder = -1;
-        }
-
-        pastPositions.Add(currentBoxPos);
-        Debug.Log("Have made this many moves: " + pastPositions.Count);
-
-    }
-
-
-
-    void cleanList()
-    {
-        for (int counter = pastPositions.Count - 1; counter > pastPositions.Count; counter--)
-        {
-            pastPositions[counter] = null;
-        }
-    }
+    
 
 }
 */

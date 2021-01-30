@@ -5,29 +5,11 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class positionRecord
-
 {
-
-
     //the place where I've been
     Vector3 position;
     //at which point was I there?
     int positionOrder;
-
-    //positionRecord{positionorder = 1, position = new Vector3(1f,1f);}
-
-    //positionRecord2{positionorder = 1, position = new Vector3(1.5f,1f);}
-
-    //positionRecord == positionRecord2
-
-    //List<positionRecord>() myList
-
-    //positionRecord1,positionRecord2
-
-    //myList.Contains(positionRecord2); == true
-
-
-
     
 
     GameObject breadcrumbBox;
@@ -36,12 +18,6 @@ public class positionRecord
     {
         this.BreadcrumbBox.GetComponent<SpriteRenderer>().color = Color.black;
     }
-
-
-//==
-//1.Equals(1) = true
-
-    //this method exists in every object in C sharp
 
 
     public override bool Equals(System.Object obj)
@@ -60,19 +36,14 @@ public class positionRecord
         if (o == null)
             return false;
 
-        
             //the distance between any food spawned
             return Vector3.Distance(this.position,o.position) < 4f;
-       
-       
     }
 
     public override int GetHashCode()
     {
         return base.GetHashCode();
     }
-
-
 
 
     public Vector3 Position { get => position; set => position = value; }
@@ -90,15 +61,12 @@ public class snakeGenerator : MonoBehaviour
 
     foodGenerator fgen;
     snakeheadController snakeController;
-    timerCanvas timerCanvas;
 
     Color snakeColor;
 
     GameObject playerBox,breadcrumbBox,pathParent;
 
     List<positionRecord> pastPositions;
-
-    //public Object target;
 
 
     IEnumerator waitToGenerateFood()
@@ -123,8 +91,6 @@ public class snakeGenerator : MonoBehaviour
 
         playerBox = Instantiate(Resources.Load<GameObject>("Prefabs/Snake"), new Vector3(-8, 9, 0), Quaternion.identity);
 
-        timerCanvas = Camera.main.GetComponent<timerCanvas>();
-        
        
         pathParent = new GameObject();
 
@@ -345,9 +311,7 @@ public class snakeGenerator : MonoBehaviour
         
         if (Input.anyKeyDown && !((Input.GetMouseButtonDown(0)
             || Input.GetMouseButtonDown(1) || Input.GetMouseButtonDown(2))) && !Input.GetKeyDown(KeyCode.X) && !Input.GetKeyDown(KeyCode.Z) && !Input.GetKeyDown(KeyCode.Space))
-        {
-            Debug.Log("a key was pressed "+Time.time + this.transform.position);
-          
+        {          
             savePosition();
 
             //draw a tail of length 4

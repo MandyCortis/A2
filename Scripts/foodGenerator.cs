@@ -6,17 +6,12 @@ using UnityEngine.SceneManagement;
 public class foodGenerator : MonoBehaviour
 {
     positionRecord foodPosition;
+    snakeGenerator sn;
 
     GameObject foodObject;
     GameObject enemySnake;
 
     public List<positionRecord> allTheFood;
-
-
-    snakeGenerator sn;
-
-    private float timer = 0.0f;
-    private float waitTime = 3.0f;
 
     bool hasSpawned = false;
     bool generateEnemey = false;
@@ -44,17 +39,7 @@ public class foodGenerator : MonoBehaviour
 
         int foodIndex = allTheFood.IndexOf(snakeHeadPos);
         Debug.Log(allTheFood.Count);
-        
-
-        //if I have a list as follows
-
-        //1. = 0 positionRecord1 in Vector3(0f,0f);
-        //2. Vector3(1,0)
-        //3. VEctor3(2,0)
-
-        //indexof(0,0) = 0
-
-        //indexof(-5,2) = -1
+   
 
         if (foodIndex != -1)
         { 
@@ -133,19 +118,17 @@ public class foodGenerator : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        sn = Camera.main.GetComponent<snakeGenerator>();
+
         foodPosition = new positionRecord();
 
         allTheFood = new List<positionRecord>();
 
         foodObject = Resources.Load<GameObject>("Prefabs/Food");
 
-        sn = Camera.main.GetComponent<snakeGenerator>();
-
         enemySnake = Resources.Load<GameObject>("Prefabs/Enemy");
 
-        timer += Time.deltaTime;
         StartCoroutine(TransformFoodTimer());
-
     }
 
 
@@ -153,12 +136,10 @@ public class foodGenerator : MonoBehaviour
     {
         if (SceneManager.GetActiveScene().name == "Level2" || SceneManager.GetActiveScene().name == "Level3")
         {
-            print("in scene2" +getVisibleFood());
             while (true)
             {
                 if (generateEnemey && !hasSpawned)
                 {
-                    print("waiting");
                     yield return new WaitForSeconds(3f);
                     StartCoroutine(TransformFood());
                     generateEnemey = false;
@@ -171,7 +152,6 @@ public class foodGenerator : MonoBehaviour
 
     IEnumerator TransformFood()
     {
-
         Transform foodChild = GameObject.Find("FoodParent").transform;
 
         int randomObj = Random.Range(0, allTheFood.Count - 1);
@@ -185,6 +165,5 @@ public class foodGenerator : MonoBehaviour
         hasSpawned = true;
     
         yield return null;
-        
     }
 }

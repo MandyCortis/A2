@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class exerciseScript : MonoBehaviour
+public class movingObstacles : MonoBehaviour
 {
     public List<Transform> waypoints1, waypoints2, waypoints3;
 
@@ -22,7 +22,7 @@ public class exerciseScript : MonoBehaviour
                     //1 unit towards the first one
                     obs1.position = Vector3.MoveTowards(obs1.position, mytransform.position, 1f);
 
-                    yield return new WaitForSeconds(0.1f);
+                    yield return new WaitForSeconds(1f);
                 }
                 yield return null;
             }
@@ -42,7 +42,7 @@ public class exerciseScript : MonoBehaviour
                     //1 unit towards the first one
                     obs2.position = Vector3.MoveTowards(obs2.position, mytransform.position, 1f);
 
-                    yield return new WaitForSeconds(0.1f);
+                    yield return new WaitForSeconds(1f);
                 }
                 yield return null;
             }
@@ -62,7 +62,7 @@ public class exerciseScript : MonoBehaviour
                     //1 unit towards the first one
                     obs3.position = Vector3.MoveTowards(obs3.position, mytransform.position, 1f);
 
-                    yield return new WaitForSeconds(0.1f);
+                    yield return new WaitForSeconds(1f);
                 }
                 yield return null;
             }
