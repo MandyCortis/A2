@@ -64,7 +64,7 @@ public class foodGenerator : MonoBehaviour
         while(true)
         {
             if (getVisibleFood() < 6) {
-                yield return new WaitForSeconds(0.5f/*(Random.Range(1f, 3f)*/);
+                yield return new WaitForSeconds(1f/*(Random.Range(1f, 3f)*/);
 
                 foodPosition = new positionRecord();
 
@@ -140,7 +140,7 @@ public class foodGenerator : MonoBehaviour
             {
                 if (generateEnemey && !hasSpawned)
                 {
-                    yield return new WaitForSeconds(3f);
+                    yield return new WaitForSeconds(4f);
                     StartCoroutine(TransformFood());
                     generateEnemey = false;
                 }

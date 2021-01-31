@@ -6,16 +6,17 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    SubmitName submitName;
+    Text txtName;
+    public string Pname;
+
     public static GameManager Instance { get; private set; }
 
     public Text scoreText;
     public static int score = 0;
 
-    public static int enemyLength = 4;
+    public int enemyTailLength = 4;
 
-    //public float completetimervalue = 0f;
-    public string playerName;
+
     public float time;
     private bool started = false;
 
@@ -24,16 +25,14 @@ public class GameManager : MonoBehaviour
         if (Instance == null) { Instance = this; } else if (Instance != this) { Destroy(gameObject); }
         DontDestroyOnLoad(gameObject);
 
-        DontDestroyOnLoad(GameObject.FindWithTag("score"));
+        //DontDestroyOnLoad(GameObject.FindWithTag("score"));
 
     }
 
-   
 
     void Start()
     {
        
-        
         //scoreText.text = "Score: " + score.ToString();
 
         if (SceneManager.GetActiveScene().name == "GameOver")
@@ -44,34 +43,12 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        scoreText.text = "Score: " + score.ToString();
+        if (SceneManager.GetActiveScene().name == "Level1" || SceneManager.GetActiveScene().name == "Level2" || SceneManager.GetActiveScene().name == "Level3")
+        {
+            txtName = GameObject.Find("name").GetComponent<Text>();
+            txtName.text = Pname;
+            //scoreText.text = "Score: " + score.ToString();
+        }
     }
 
-    public void SetUsername(string username)
-    {
-        this.playerName = username;
-    }
-
-    public string GetUsername()
-    {
-        return playerName;
-    }
-
-    public void StartTimer()
-    {
-        started = true;
-        SceneManager.LoadScene("Level1");
-    }
-
-    public float GetTime()
-    {
-        return time;
-    }
-
-    public void Restart()
-    {
-        playerName = "";
-        time = 0;
-        SceneManager.LoadScene("StartLevel");
-    }
 }

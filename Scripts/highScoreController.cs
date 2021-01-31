@@ -1,22 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-/*
-public class HighScore
-{
-    public string playername;
-    public float playtime;
-
-    public HighScore(string pname, float ptime)
-    {
-        playername = pname;
-        playtime = ptime;
-    }
-}
-*/
 
 public class highScoreController : MonoBehaviour
 {
@@ -26,8 +11,10 @@ public class highScoreController : MonoBehaviour
     // private List<HighscoreEntry> hsEntryList;
     private List<Transform> hsEntryTransformList;
 
+    GameManager gm;
 
-    private void Awake()
+
+    public void Awake()
     {
         entryContainer = transform.Find("hsContainer");
         entryTemplate = entryContainer.Find("hsTemplate");
@@ -40,7 +27,7 @@ public class highScoreController : MonoBehaviour
         if (highscores == null)
         {
             print("Initializing table with default values");
-            AddHsEntry(1, "DEFAULT", "1s");
+            //AddHsEntry(1, "DEFAULT", "1s");
 
             jsonString = PlayerPrefs.GetString("HighscorePanel");
             highscores = JsonUtility.FromJson<Highscores>(jsonString);
@@ -48,7 +35,7 @@ public class highScoreController : MonoBehaviour
         RefreshHsTable();
     }
 
-    void RefreshHsTable()
+    public void RefreshHsTable()
     {
         string jsonString = PlayerPrefs.GetString("HighscorePanel");
         Highscores highscores = JsonUtility.FromJson<Highscores>(jsonString);
@@ -85,7 +72,7 @@ public class highScoreController : MonoBehaviour
         }
     }
 
-    private void CreateHsEntryTransform(HighscoreEntry hsEnrty, Transform container, List<Transform> transformList)
+    public void CreateHsEntryTransform(HighscoreEntry hsEnrty, Transform container, List<Transform> transformList)
     {
         float templateHeight = 30f;
         Transform entryTransform = Instantiate(entryTemplate, container);
@@ -158,14 +145,14 @@ public class highScoreController : MonoBehaviour
 
 
     
-    private class Highscores
+    public class Highscores
     {
         public List<HighscoreEntry> hsEntryList;
     }
 
 
     [System.Serializable]
-    private class HighscoreEntry
+    public class HighscoreEntry
     {
         public int score;
         public string name;
@@ -173,17 +160,19 @@ public class highScoreController : MonoBehaviour
     }
 
 
-    void Start()
+    public void Start()
     {
-        AddHsEntry(GameManager.score, SubmitName.name, timerManager.timerText.text);
-        Destroy(GameObject.FindWithTag("name"));
-        Destroy(GameObject.FindWithTag("score"));
-        Destroy(GameObject.FindWithTag("timer"));
-        GameManager.enemyLength = 4;
-        GameManager.score = 0;
+        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
+        print("entered hs");
+        //AddHsEntry(GameManager.score, GameManager.Pname, timerManager.timerText.text);
+        //Destroy(GameObject.FindWithTag("name"));
+        //Destroy(GameObject.FindWithTag("score"));
+        //Destroy(GameObject.FindWithTag("timer"));
+        //GameManager.enemyTailLength = 4;
+        //GameManager.score = 0;
     }
 
-    void Update()
+    public void Update()
     {
         {
             if(Input.GetKeyDown(KeyCode.Delete))
@@ -194,87 +183,5 @@ public class highScoreController : MonoBehaviour
         }
     }
 }
-
-    /*
-    void Start()
-    {
-        DontDestroyOnLoad(this.gameObject);
-        myHighScores = new List<HighScore>();
-
-        myHighScores.Add(new HighScore("Gerry", 65.5f));
-        myHighScores.Add(new HighScore("Joey", 60.5f));
-
-    }
-
-    void DisplayList()
-    {
-        foreach (HighScore s in myHighScores)
-        {
-            Debug.Log(s.playername + " " + s.playtime);
-        }
-    }
-
-    void SaveList()
-    {
-        string[] names = new string[myHighScores.Count];
-
-        float[] playertimes = new float[myHighScores.Count];
-
-        int counter = 0;
-        foreach (HighScore s in myHighScores)
-        {
-            names[counter] = s.playername;
-            playertimes[counter] = s.playtime;
-            counter++;
-        }
-
-
-        //PlayerPrefsX.SetStringArray("PlayerNames", names);
-        //PlayerPrefsX.SetFloatArray("PlayerTimes", playertimes);
-
-    }
-
-
-    void LoadList()
-    {
-        string[] names;
-
-        float[] playertimes;
-
-       // names = PlayerPrefsX.GetStringArray("PlayerNames");
-       // playertimes = PlayerPrefsX.GetFloatArray("PlayerTimes");
-
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            SceneManager.LoadScene("Level1");
-        }
-
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            SceneManager.LoadScene("Level2");
-        }
-
-        if (Input.GetKeyDown(KeyCode.Z))
-        {
-            SaveList();
-        }
-
-        if (Input.GetKeyDown(KeyCode.X))
-        {
-            LoadList();
-        }
-
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            DisplayList();
-        }
-    }
-    */
 
 

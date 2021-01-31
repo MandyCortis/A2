@@ -94,7 +94,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timerStarted: 0
   timerValue: 0
-  timerFinal: 
+  highScore: {fileID: 0}
+  timerString: 
 --- !u!1 &6884174041143387782
 GameObject:
   m_ObjectHideFlags: 0
@@ -111,7 +112,7 @@ GameObject:
   - component: {fileID: -5754952542035670320}
   m_Layer: 5
   m_Name: Timer
-  m_TagString: Untagged
+  m_TagString: timer
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

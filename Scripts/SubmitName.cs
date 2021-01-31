@@ -1,21 +1,25 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class SubmitName : MonoBehaviour
 {
-    //public InputField usernameInput;
+    public InputField usernameInput;
     public static string name;
+
+    public void Start()
+    {
+        
+    }
 
     public void OnValueChange()
     {
-        InputField inputField = GameObject.Find("UsernameField").GetComponent<InputField>();
-        name = inputField.text;
+        usernameInput = GameObject.Find("UsernameField").GetComponent<InputField>();
+        name = usernameInput.text.ToString();
 
-        if(name.Length >= 3)
+        if (name.Length >= 3)
         {
             GameObject.Find("StartButton").GetComponent<Button>().interactable = true;
+
            // usernameInput.text = name;
         }
 
@@ -24,7 +28,7 @@ public class SubmitName : MonoBehaviour
             GameObject.Find("StartButton").GetComponent<Button>().interactable = false;
         }
 
-        GameManager.Instance.name = name;
+        //GameManager.Instance.name = name;
     }
 
     public void OnEndEdit()
@@ -32,17 +36,17 @@ public class SubmitName : MonoBehaviour
         InputField inputField = GameObject.Find("UsernameField").GetComponent<InputField>();
         name = inputField.text;
 
-        GameObject.Find("StartSceneScripts").GetComponent<StartGame>().SetName(name);
-        GameManager.Instance.name = name;
+        //GameObject.Find("StartSceneScripts").GetComponent<StartGame>().SetName(name);
+        //GameManager.Instance.name = name;
     }
 
     /*
-    public void SaveUser(string newName)
+    public void SaveUser()
     {
-        name = newName;
+        name = inputField.GetComponent<Text>().text; 
     }
-    */
     
+    */
     public string GetName()
     { 
         return name;

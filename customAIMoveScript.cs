@@ -7,6 +7,8 @@ using UnityEngine.SceneManagement;
 
 
 
+
+
 public class customAIMoveScript : MonoBehaviour
 {
     //the object that we are using to generate the path
@@ -21,21 +23,22 @@ public class customAIMoveScript : MonoBehaviour
     //a reference to PointGraphObject
     GameObject graphParent;
 
-
+    GameManager gm;
 
 
     foodGenerator fgen;
-    List<positionRecord> enemyPastPos;
+    //List<enemyPositionRecord> enemyPastPos;
     bool firstrun = true;
     GameObject enemyAI, breadcrumbBox, pathParent;
     int enemyPos = 0;
-    int enemyLength = GameManager.enemyLength;
+    public int enemyLength;
 
     LineRenderer lineRenderer;
     bool showPath = false;
 
     void Start()
     {
+        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         //the instance of the seeker attached to this game object
         seeker = GetComponent<Seeker>();
 
@@ -56,8 +59,7 @@ public class customAIMoveScript : MonoBehaviour
         StartCoroutine(moveTowardsPlayer(this.transform));
 
 
-
-
+        enemyLength = gm.enemyTailLength;
 
 
         enemyAI = GameObject.FindGameObjectWithTag("enemy");
@@ -149,13 +151,13 @@ public class customAIMoveScript : MonoBehaviour
         {
             for (int count = length; count > 0; count--)
             {
-                positionRecord fakeBoxPos = new positionRecord();
+                enemyPositionRecord fakeBoxPos = new enemyPositionRecord();
                 
                 fakeBoxPos.Position = new Vector3(this.gameObject.transform.position.x, this.gameObject.transform.position.y);
                 enemyPastPos.Add(fakeBoxPos);
             }
             firstrun = false;
-            drawTail(GameManager.enemyLength);
+            drawTail(enemyLength);
         }
     }
 
@@ -163,7 +165,7 @@ public class customAIMoveScript : MonoBehaviour
     void clearTail()
     {
         //cleanList();
-        foreach (positionRecord p in enemyPastPos)
+        foreach (enemyPositionRecord p in enemyPastPos)
         {
             Destroy(p.BreadcrumbBox);
         }
@@ -172,7 +174,7 @@ public class customAIMoveScript : MonoBehaviour
 
     bool boxExists(Vector3 positionToCheck)
     {
-        foreach (positionRecord p in enemyPastPos)
+        foreach (enemyPositionRecord p in enemyPastPos)
         {
             if (p.Position == positionToCheck)
             {
@@ -188,7 +190,7 @@ public class customAIMoveScript : MonoBehaviour
 
     void savePosition()
     {
-        positionRecord currentBoxPos = new positionRecord();
+        enemyPositionRecord currentBoxPos = new enemyPositionRecord();
 
         currentBoxPos.Position = this.gameObject.transform.position;
         enemyPos++;

@@ -5,13 +5,20 @@ using UnityEngine.UI;
 
 public class SetText : MonoBehaviour
 {
-    /*
+    SubmitName submitName;
+
     [SerializeField] Text playerName;
     [SerializeField] Text time;
     void Start()
     {
-        playerName.text = GameManager.Instance.playerName;
+
+        submitName = Camera.main.GetComponent<SubmitName>();
+
+        //playerName = submitName.SaveUser().GetComponent<Text>().text;
+        /*
+        playerName.text = GameManager.Instance.name;
         time.text = GameManager.Instance.time.ToString("00.00");
+        */
     }
-    */
+    
 }
