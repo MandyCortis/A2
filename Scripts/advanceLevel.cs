@@ -32,6 +32,7 @@ public class advanceLevel : MonoBehaviour
         {
             if (collision.gameObject.tag == "snakeHead" && sg.snakelength >= 6)
             {
+                Destroy(GameObject.FindWithTag("timer"));
                 SceneManager.LoadScene("Win");
             }
         }

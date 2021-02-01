@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class snakeheadController : MonoBehaviour
 {
-    snakeGenerator mysnakegenerator;
     foodGenerator myfoodgenerator;
 
     
@@ -32,7 +31,6 @@ public class snakeheadController : MonoBehaviour
 
     private void Start()
     {
-        mysnakegenerator = Camera.main.GetComponent<snakeGenerator>();
         myfoodgenerator = Camera.main.GetComponent<foodGenerator>();
     }
 
@@ -75,35 +73,27 @@ public class snakeheadController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            Debug.LogWarning("Closest food" + findClosestFood());
             transform.position -= new Vector3(1f,0);
             checkBounds();
             myfoodgenerator.eatFood(this.transform.position);
-            Debug.Log("left" + mysnakegenerator.hitTail(this.transform.position, mysnakegenerator.snakelength));
         }
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-            Debug.LogWarning("Closest food" + findClosestFood());
             transform.position += new Vector3(1f, 0);
             checkBounds();
             myfoodgenerator.eatFood(this.transform.position);
-            Debug.Log("right" +mysnakegenerator.hitTail(this.transform.position, mysnakegenerator.snakelength));
         }
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
-            Debug.LogWarning("Closest food" + findClosestFood());
             transform.position += new Vector3(0, 1f);
             checkBounds();
             myfoodgenerator.eatFood(this.transform.position);
-            Debug.Log("up" + mysnakegenerator.hitTail(this.transform.position, mysnakegenerator.snakelength));
         }
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
-            Debug.LogWarning("Closest food" + findClosestFood());
             transform.position -= new Vector3(0, 1f);
             checkBounds();
             myfoodgenerator.eatFood(this.transform.position);
-            Debug.Log("down" + mysnakegenerator.hitTail(this.transform.position, mysnakegenerator.snakelength));
         }
     }
 }

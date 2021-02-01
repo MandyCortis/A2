@@ -15,8 +15,8 @@ public class StartGame : MonoBehaviour
     public void OnStartGame(string level1)
     {
         usernameInput = GameObject.Find("UsernameField").GetComponent<InputField>();
-        GameObject.Find("GameManager").GetComponent<GameManager>().Pname = usernameInput.text.ToString();
-        print(GameObject.Find("GameManager").GetComponent<GameManager>().Pname);
+        GameManager.Pname = usernameInput.text;
+        print(GameManager.Pname);
 
         SceneManager.LoadScene(level1);
     }

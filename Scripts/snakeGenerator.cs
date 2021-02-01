@@ -172,10 +172,8 @@ public class snakeGenerator : MonoBehaviour
         {
             if (p.Position == positionToCheck)
             {
-                Debug.Log(p.Position + "Actually was a past position");
                 if (p.BreadcrumbBox != null)
                 {
-                    Debug.Log(p.Position + "Actually has a red box already");
                     //this breaks the foreach so I don't need to keep checking
                     return true;
                 }
@@ -207,7 +205,6 @@ public class snakeGenerator : MonoBehaviour
         }
 
         pastPositions.Add(currentBoxPos);
-        Debug.Log("Have made this many moves: " + pastPositions.Count);
        
     }
 
@@ -243,12 +240,8 @@ public class snakeGenerator : MonoBehaviour
             int tailStartIndex = pastPositions.Count - 1;
             int tailEndIndex = tailStartIndex - length;
           
-            //if length = 4, this should give me the last 4 blocks
             for (int snakeblocks = tailStartIndex;snakeblocks>tailEndIndex;snakeblocks--)
             {
-                //prints the past position and its order in the list
-                //Debug.Log("ppppp" + pastPositions[snakeblocks].Position + " " + pastPositions[snakeblocks].PositionOrder);
-                Debug.Log(snakeblocks);
                 pastPositions[snakeblocks].BreadcrumbBox = Instantiate(breadcrumbBox, pastPositions[snakeblocks].Position, Quaternion.identity);
                 pastPositions[snakeblocks].BreadcrumbBox.GetComponent<SpriteRenderer>().color = snakeColor;
             }
@@ -284,7 +277,7 @@ public class snakeGenerator : MonoBehaviour
             if ((headPosition == pastPositions[snakeblocks].Position) && (pastPositions[snakeblocks].BreadcrumbBox != null))
             {
                 SceneManager.LoadScene("GameOver");
-                //Destroy(timerCanvas);
+                
                 return true;
             }
         }
@@ -328,9 +321,5 @@ public class snakeGenerator : MonoBehaviour
         {
             clearTail();
         }
-        
-        
-
-
     }
 }

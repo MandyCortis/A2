@@ -6,7 +6,27 @@ using Pathfinding;
 using UnityEngine.SceneManagement;
 
 
+public class enemyPositionRecord
+{
+    //the place where I've been
+    Vector3 position;
+    //at which point was I there?
+    int positionOrder;
 
+
+    GameObject breadcrumbBox;
+
+    public void changeColor()
+    {
+        this.BreadcrumbBox.GetComponent<SpriteRenderer>().color = Color.black;
+    }
+
+
+
+    public Vector3 Position { get => position; set => position = value; }
+    public int PositionOrder { get => positionOrder; set => positionOrder = value; }
+    public GameObject BreadcrumbBox { get => breadcrumbBox; set => breadcrumbBox = value; }
+}
 
 
 public class customAIMoveScript : MonoBehaviour
@@ -23,7 +43,6 @@ public class customAIMoveScript : MonoBehaviour
     //a reference to PointGraphObject
     GameObject graphParent;
 
-    GameManager gm;
 
 
     foodGenerator fgen;
@@ -33,12 +52,15 @@ public class customAIMoveScript : MonoBehaviour
     int enemyPos = 0;
     public int enemyLength;
 
-    LineRenderer lineRenderer;
+    LineRenderer lr;
+
+    Color startCol = Color.cyan;
+    Color endCol = Color.yellow;
+
     bool showPath = false;
 
     void Start()
     {
-        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         //the instance of the seeker attached to this game object
         seeker = GetComponent<Seeker>();
 
@@ -58,19 +80,25 @@ public class customAIMoveScript : MonoBehaviour
         //move the enemy towards the snakeHead
         StartCoroutine(moveTowardsPlayer(this.transform));
 
-
-        enemyLength = gm.enemyTailLength;
-
-
         enemyAI = GameObject.FindGameObjectWithTag("enemy");
+
+        lr = this.gameObject.GetComponent<LineRenderer>();
+        lr.material = new Material(Shader.Find("Sprites/Default"));
+        lr.startColor = startCol;
+        lr.endColor = endCol;
     }
 
     private void Update()
     {
-        savePosition();
-
-        //draw a tail of length 4
-        drawTail(enemyLength);
+        SeekerMode(this.transform);
+        if (Input.GetKey(KeyCode.Space) && Input.GetKey(KeyCode.B))
+        {
+            showPath = true;
+        }
+        else
+        {
+            showPath = false;
+        }
     }
 
     IEnumerator updateGraph()
@@ -97,8 +125,7 @@ public class customAIMoveScript : MonoBehaviour
                     while (Vector3.Distance(t.position, posns[counter]) >= 1f)
                     {
                         t.position = Vector3.MoveTowards(t.position, posns[counter], 1f);
-                        //drawTail(enemyLength);
-                        //savePosition();
+
                         //since the enemy is moving, I need to make sure that I am following him
                         pathToFollow = seeker.StartPath(t.position, target.position);
                         //wait until the path is generated
@@ -107,6 +134,8 @@ public class customAIMoveScript : MonoBehaviour
                         posns = pathToFollow.vectorPath;
 
                         yield return new WaitForSeconds(1f);
+                        //drawTail(enemyLength);
+                        //clearTail();
                     }
                 }
                 //keep looking for a path because if we have arrived the enemy will anyway move away
@@ -128,8 +157,42 @@ public class customAIMoveScript : MonoBehaviour
     }
 
 
+    void SeekerMode(Transform t)
+    {
+        Vector3[] linePosList;
+        if (showPath)
+        {
+            if (pathToFollow.vectorPath.Count < 2)
+            {
+                return;
+            }
+            int i = 1;
+
+            while (i < pathToFollow.vectorPath.Count)
+            {
+                lr.positionCount = pathToFollow.vectorPath.Count;
+                linePosList = pathToFollow.vectorPath.ToArray();
+                for (int j = 0; j < linePosList.Length; j++)
+                {
+                    lr.SetPosition(j, linePosList[j]);
+                }
+                i++;
+            }
+        }
+        else
+        {
+            for (int i = pathToFollow.vectorPath.Count - 1; i > 0; i--)
+            {
+                lr.positionCount = i;
+            }
+        }
+    }
+
+}
 
 
+    /*
+    
     void drawTail(int length)
     {
         clearTail();
@@ -152,7 +215,7 @@ public class customAIMoveScript : MonoBehaviour
             for (int count = length; count > 0; count--)
             {
                 enemyPositionRecord fakeBoxPos = new enemyPositionRecord();
-                
+
                 fakeBoxPos.Position = new Vector3(this.gameObject.transform.position.x, this.gameObject.transform.position.y);
                 enemyPastPos.Add(fakeBoxPos);
             }
@@ -220,21 +283,10 @@ public class customAIMoveScript : MonoBehaviour
         }
     }
 
-
-    void SeekerMode(Transform t)
-    {
-        Vector3[] linePosList;
-        if (showPath)
-        {
-            if (pathToFollow.vectorPath.Count < 2)
-            {
-                return;
-            }
-            int x = 1;
-        }
-    }
-
 }
+    
+    */
+
 
 /*
 IEnumerator MoveTo(Transform pos)

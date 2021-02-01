@@ -1,40 +1,24 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class timerManager : MonoBehaviour
 {
     public bool timerStarted;
 
-    public float timerValue=0f;
-
-    public Text highScore;
+    public static float timerValue=0f;
 
     public static Text timerText;
+
     public string timerString;
 
 
     void Start()
     {
-        //gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-        //the text component attached to THIS object
         timerText = GetComponent<Text>();
         StartCoroutine(timer());
         timerString = timerText.ToString();
-        /*
-        if (PlayerPrefs.HasKey("HighScore") == true)
-        {
-            highScore.text = PlayerPrefs.GetInt("HighScore").ToString();
-        }
-        else
-        {
-            highScore.text = "No HighScore yet";
-        }
-        */
     }
-
 
 
     IEnumerator timer()
@@ -61,11 +45,13 @@ public class timerManager : MonoBehaviour
                 timerText.text = string.Format("{0:00}:{1:00}", 0f, 0f);
                 yield return null;
             }
-            
         }
-        
     }
 
-
-    
+    public static void ResetTimer()
+    {
+        timerValue = 0f;
+        timerText.text = string.Format("{0:00}:{1:00}", 0f, 0f);
+        Destroy(GameObject.FindWithTag("timer"));
+    }
 }

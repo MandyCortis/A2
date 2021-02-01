@@ -5,7 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class timerCanvas : MonoBehaviour
 {
-    GameObject timerUI;
+    public GameObject timerUI;
+    timerManager tm;
 
     private void Start()
     {
@@ -18,18 +19,5 @@ public class timerCanvas : MonoBehaviour
 
         //the default value for the timer is started
         timerUI.GetComponentInChildren<timerManager>().timerStarted = true;
-    }
-
-    void DestroyTimer()
-    {
-        if (SceneManager.GetActiveScene().name == "GameOver")
-        {
-            Destroy(timerUI);
-        }
-    }
-
-    void Update()
-    {
-        DestroyTimer();
     }
 }

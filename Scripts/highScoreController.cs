@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using System.Linq;
+using System;
 
 public class highScoreController : MonoBehaviour
 {
@@ -10,8 +11,6 @@ public class highScoreController : MonoBehaviour
 
     // private List<HighscoreEntry> hsEntryList;
     private List<Transform> hsEntryTransformList;
-
-    GameManager gm;
 
 
     public void Awake()
@@ -26,14 +25,13 @@ public class highScoreController : MonoBehaviour
 
         if (highscores == null)
         {
-            print("Initializing table with default values");
-            //AddHsEntry(1, "DEFAULT", "1s");
-
+            AddHsEntry("Null", "0s", 0f);
             jsonString = PlayerPrefs.GetString("HighscorePanel");
             highscores = JsonUtility.FromJson<Highscores>(jsonString);
         }
         RefreshHsTable();
     }
+
 
     public void RefreshHsTable()
     {
@@ -41,20 +39,8 @@ public class highScoreController : MonoBehaviour
         Highscores highscores = JsonUtility.FromJson<Highscores>(jsonString);
 
 
-        //Sort entry list by score
-        for (int i = 0; i < highscores.hsEntryList.Count; i++)
-        {
-            for (int j = i + 1; j < highscores.hsEntryList.Count; j++)
-            {
-                if (highscores.hsEntryList[j].score > highscores.hsEntryList[i].score)
-                {
-                    //swap
-                    HighscoreEntry temp = highscores.hsEntryList[i];
-                    highscores.hsEntryList[i] = highscores.hsEntryList[j];
-                    highscores.hsEntryList[j] = temp;
-                }
-            }
-        }
+        highscores.Sort();
+
 
         if (hsEntryTransformList != null)
         {
@@ -94,10 +80,6 @@ public class highScoreController : MonoBehaviour
 
         entryTransform.Find("posEntry").GetComponent<Text>().text = rankString;
 
-        int score = hsEnrty.score;
-
-        entryTransform.Find("scoreEntry").GetComponent<Text>().text = score.ToString();
-
         string name = hsEnrty.name;
         entryTransform.Find("nameEntry").GetComponent<Text>().text = name;
 
@@ -107,18 +89,18 @@ public class highScoreController : MonoBehaviour
         if (rank == 1)
         {
             entryTransform.Find("posEntry").GetComponent<Text>().color = Color.green;
-            entryTransform.Find("scoreEntry").GetComponent<Text>().color = Color.green;
             entryTransform.Find("nameEntry").GetComponent<Text>().color = Color.green;
+            entryTransform.Find("timeEntry").GetComponent<Text>().color = Color.green;
         }
 
         transformList.Add(entryTransform);
 
     }
 
-    public void AddHsEntry(int score, string name, string time)
+    public void AddHsEntry(string name, string time, float hsTime)
     {
         //Create HighscoreEntry
-        HighscoreEntry hsEntry = new HighscoreEntry { score = score, name = name, time = time };
+        HighscoreEntry hsEntry = new HighscoreEntry { name = name, time = time, hsTime = hsTime};
 
         //Load saved Highscores
         string jsonString = PlayerPrefs.GetString("HighscorePanel");
@@ -148,28 +130,34 @@ public class highScoreController : MonoBehaviour
     public class Highscores
     {
         public List<HighscoreEntry> hsEntryList;
+        public void Sort()
+        {
+            hsEntryList.Sort();
+        }
     }
 
 
     [System.Serializable]
-    public class HighscoreEntry
+    public class HighscoreEntry: System.IComparable<HighscoreEntry>
     {
-        public int score;
+        
         public string name;
         public string time;
+        public float hsTime;
+        
+
+        int IComparable<HighscoreEntry>.CompareTo(HighscoreEntry other)
+        {
+            return Convert.ToInt32(hsTime - other.hsTime);
+        }
     }
 
 
     public void Start()
     {
-        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
-        print("entered hs");
-        //AddHsEntry(GameManager.score, GameManager.Pname, timerManager.timerText.text);
+        AddHsEntry(GameManager.Pname, timerManager.timerText.text, timerManager.timerValue);
         //Destroy(GameObject.FindWithTag("name"));
-        //Destroy(GameObject.FindWithTag("score"));
         //Destroy(GameObject.FindWithTag("timer"));
-        //GameManager.enemyTailLength = 4;
-        //GameManager.score = 0;
     }
 
     public void Update()
@@ -179,6 +167,7 @@ public class highScoreController : MonoBehaviour
             {
                 PlayerPrefs.DeleteAll();
                 print("deleted");
+                RefreshHsTable();
             }
         }
     }

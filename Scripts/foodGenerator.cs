@@ -20,7 +20,7 @@ public class foodGenerator : MonoBehaviour
     int getVisibleFood()
     {
         int counter = 0;
-        foreach(positionRecord f in allTheFood)
+        foreach (positionRecord f in allTheFood)
         {
             if (f.BreadcrumbBox != null)
             {
@@ -33,22 +33,20 @@ public class foodGenerator : MonoBehaviour
     public void eatFood(Vector3 snakeHeadPosition)
     {
         positionRecord snakeHeadPos = new positionRecord();
-        Debug.Log(snakeHeadPosition);
 
         snakeHeadPos.Position = snakeHeadPosition;
 
         int foodIndex = allTheFood.IndexOf(snakeHeadPos);
-        Debug.Log(allTheFood.Count);
-   
+
 
         if (foodIndex != -1)
-        { 
+        {
 
             Color foodColor;
 
             foodColor = allTheFood[foodIndex].BreadcrumbBox.GetComponent<SpriteRenderer>().color;
 
-            sn.changeSnakeColor(sn.snakelength,foodColor);
+            sn.changeSnakeColor(sn.snakelength, foodColor);
 
             Destroy(allTheFood[foodIndex].BreadcrumbBox);
 
@@ -61,9 +59,10 @@ public class foodGenerator : MonoBehaviour
 
     public IEnumerator generateFood()
     {
-        while(true)
+        while (true)
         {
-            if (getVisibleFood() < 6) {
+            if (getVisibleFood() < 6)
+            {
                 yield return new WaitForSeconds(1f/*(Random.Range(1f, 3f)*/);
 
                 foodPosition = new positionRecord();
@@ -77,10 +76,10 @@ public class foodGenerator : MonoBehaviour
                 //don't allow the food to be spawned on other food
                 foodPosition.Position = randomLocation;
 
-                if (!allTheFood.Contains(foodPosition) && !sn.hitTail(foodPosition.Position,sn.snakelength))
+                if (!allTheFood.Contains(foodPosition) && !sn.hitTail(foodPosition.Position, sn.snakelength))
                 {
-                    
-                    if(Physics2D.OverlapCircleAll(randomLocation, 0.1f).Length == 0)
+
+                    if (Physics2D.OverlapCircleAll(randomLocation, 0.1f).Length == 0)
                     {
                         foodPosition.BreadcrumbBox = Instantiate(foodObject, randomLocation, Quaternion.Euler(0f, 0f, 45f));
 
@@ -99,17 +98,17 @@ public class foodGenerator : MonoBehaviour
                         allTheFood.Add(foodPosition);
                     }
 
-                    
+
                 }
                 yield return null;
             }
-            if(allTheFood.Count == 6)
+            if (allTheFood.Count == 6)
             {
                 generateEnemey = true;
                 yield return null;
             }
-            
-            
+
+
             yield return null;
         }
     }
@@ -163,7 +162,7 @@ public class foodGenerator : MonoBehaviour
         Instantiate(enemySnake, childPos, Quaternion.identity);
 
         hasSpawned = true;
-    
+
         yield return null;
     }
 }

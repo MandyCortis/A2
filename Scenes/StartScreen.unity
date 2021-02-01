@@ -218,8 +218,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e0b3371d2e25824e921c64924cf2e55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Pname: 
-  scoreText: {fileID: 0}
+  txtName: {fileID: 869573890}
   time: 0
 --- !u!4 &559567412
 Transform:
@@ -590,7 +589,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4887e701cd3f29a4d879f8e7e0dbb659, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  usernameInput: {fileID: 0}
+  usernameInput: {fileID: 2027110162}
 --- !u!114 &1093389907
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -603,7 +602,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da5d8fe7c83042148bb67f33b31e39d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  usernameInput: {fileID: 0}
+  usernameInput: {fileID: 2027110162}
 --- !u!4 &1093389908
 Transform:
   m_ObjectHideFlags: 0
