@@ -9,7 +9,6 @@ public class highScoreController : MonoBehaviour
     private Transform entryContainer;
     private Transform entryTemplate;
 
-    // private List<HighscoreEntry> hsEntryList;
     private List<Transform> hsEntryTransformList;
 
 
@@ -25,7 +24,7 @@ public class highScoreController : MonoBehaviour
 
         if (highscores == null)
         {
-            AddHsEntry("Null", "0s", 0f);
+            AddHsEntry("Null", "59.59s", 59.59f);
             jsonString = PlayerPrefs.GetString("HighscorePanel");
             highscores = JsonUtility.FromJson<Highscores>(jsonString);
         }

@@ -107,14 +107,11 @@ public class foodGenerator : MonoBehaviour
                 generateEnemey = true;
                 yield return null;
             }
-
-
             yield return null;
         }
     }
 
 
-    // Start is called before the first frame update
     void Start()
     {
         sn = Camera.main.GetComponent<snakeGenerator>();
@@ -139,7 +136,7 @@ public class foodGenerator : MonoBehaviour
             {
                 if (generateEnemey && !hasSpawned)
                 {
-                    yield return new WaitForSeconds(4f);
+                    yield return new WaitForSeconds(3f);
                     StartCoroutine(TransformFood());
                     generateEnemey = false;
                 }

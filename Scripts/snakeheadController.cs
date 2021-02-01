@@ -47,21 +47,21 @@ public class snakeheadController : MonoBehaviour
             transform.position = new Vector3(transform.position.x, -transform.position.y);
         }
         */
-        if (transform.position.x <= -9.5f)
+        if (transform.position.x <= -10f)
         {
             transform.position = new Vector2(-9f, transform.position.y);
         }
-        else if (transform.position.x >= 9.5f)
+        else if (transform.position.x >= 10f)
         {
             transform.position = new Vector2(9f, transform.position.y);
         }
 
         // Y axis
-        if (transform.position.y <= -9.5f)
+        if (transform.position.y <= -10f)
         {
             transform.position = new Vector2(transform.position.x, -9f);
         }
-        else if (transform.position.y >= 9.5f)
+        else if (transform.position.y >= 10f)
         {
             transform.position = new Vector2(transform.position.x, 9f);
         }

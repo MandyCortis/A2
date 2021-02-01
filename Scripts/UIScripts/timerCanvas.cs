@@ -6,7 +6,6 @@ using UnityEngine.SceneManagement;
 public class timerCanvas : MonoBehaviour
 {
     public GameObject timerUI;
-    timerManager tm;
 
     private void Start()
     {

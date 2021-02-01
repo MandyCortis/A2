@@ -5,13 +5,7 @@ using UnityEngine.UI;
 public class StartGame : MonoBehaviour
 {
     public InputField usernameInput;
-    
-
-    void Start()
-    {
-       
-    }
-
+ 
     public void OnStartGame(string level1)
     {
         usernameInput = GameObject.Find("UsernameField").GetComponent<InputField>();
@@ -20,11 +14,4 @@ public class StartGame : MonoBehaviour
 
         SceneManager.LoadScene(level1);
     }
-
-    /*
-    public void SetName(string name)
-    {
-        this.name = name;
-    }
-    */
 }

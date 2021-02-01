@@ -1,14 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class MenuUI : MonoBehaviour
 {
-    timerManager tm;
-    timerCanvas tc;
-
     public void Quit()
     {
         EditorApplication.isPlaying = false;

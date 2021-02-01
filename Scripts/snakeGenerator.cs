@@ -84,7 +84,6 @@ public class snakeGenerator : MonoBehaviour
     }
 
 
-    // Start is called before the first frame update
     void Start()
     {
         snakeColor = Color.green;
@@ -115,10 +114,7 @@ public class snakeGenerator : MonoBehaviour
         StartCoroutine(waitToGenerateFood());
 
         drawTail(snakelength);
-
-
-        //target = playerBox;
-       
+               
     }
 
 

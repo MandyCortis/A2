@@ -12,20 +12,12 @@ public class GameManager : MonoBehaviour
     public static string Pname;
 
 
-    public float time;
-
-
     public void Awake()
     {
         //if (Instance == null) { Instance = this; } else if (Instance != this) { Destroy(gameObject); }
         DontDestroyOnLoad(gameObject);
     }
 
-
-    public void Start()
-    {
-        //Pname = GetComponent<string>();
-    }
 
     public void Update()
     {
@@ -35,5 +27,4 @@ public class GameManager : MonoBehaviour
             txtName.text = Pname;
         }
     }
-
 }
